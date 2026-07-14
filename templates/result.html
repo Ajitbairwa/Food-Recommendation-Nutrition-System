@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Your Diet Plan</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="result-wrapper">
+
+        <div class="result-container">
+
+            <div class="result-heading">
+                <h1>Your Personalized Diet Plan</h1>
+                <p>
+                    Your results are calculated from your body details,
+                    activity level and fitness goal.
+                </p>
+            </div>
+
+            <div class="summary-grid">
+
+                <div class="summary-card">
+                    <h3>BMI</h3>
+                    <p>{{ plan["BMI"] }}</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3>BMI Category</h3>
+                    <p>{{ plan["BMI Category"] }}</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3>BMR</h3>
+                    <p>{{ plan["BMR"] }} kcal</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Daily Calories</h3>
+                    <p>{{ plan["Daily Calories"] }} kcal</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Target Calories</h3>
+                    <p>{{ plan["Target Calories"] }} kcal</p>
+                </div>
+
+            </div>
+
+            <div class="meal-section">
+
+                {% for meal_name, meal in plan["Meal Plan"].items() %}
+
+                    <div class="meal-card">
+
+                        <div class="meal-header">
+                            <h2>{{ meal_name }}</h2>
+
+                            <span>
+                                Target:
+                                {{ meal["Target Calories"] }} kcal
+                            </span>
+                        </div>
+
+                        <div class="table-wrapper">
+
+                            <table>
+
+                                <thead>
+                                    <tr>
+                                        <th>Food</th>
+                                        <th>Category</th>
+                                        <th>Calories</th>
+                                        <th>Protein</th>
+                                        <th>Carbs</th>
+                                        <th>Fat</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    {% for food in meal["Recommended Foods"].to_dict("records") %}
+
+                                        <tr>
+                                            <td>{{ food["food_name"] }}</td>
+                                            <td>{{ food["category"] }}</td>
+                                            <td>{{ food["calories"] }}</td>
+                                            <td>{{ food["protein"] }}</td>
+                                            <td>{{ food["carbs"] }}</td>
+                                            <td>{{ food["fat"] }}</td>
+                                        </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+            <a href="/" class="back-btn">
+                Generate Another Plan
+            </a>
+
+            <p class="note">
+                These recommendations are generated for educational purposes
+                and are not a replacement for professional medical advice.
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

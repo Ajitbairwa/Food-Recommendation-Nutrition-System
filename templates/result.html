@@ -3,125 +3,121 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Your Diet Plan</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="description" content="Your personalized food and nutrition recommendation plan.">
+    <title>Your Diet Plan | NutriGuide AI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body>
+    <header class="site-header">
+        <a class="brand" href="/" aria-label="NutriGuide AI home">
+            <span class="brand-mark">N</span>
+            <span>NutriGuide <strong>AI</strong></span>
+        </a>
+        <a href="/" class="header-link">Create New Plan</a>
+    </header>
 
-    <div class="result-wrapper">
+    <main class="result-page">
+        <section class="result-hero">
+            <span class="eyebrow">YOUR PERSONALIZED REPORT</span>
+            <h1>Your daily nutrition plan is ready.</h1>
+            <p>Calculated using your body details, activity level and selected fitness goal.</p>
+        </section>
 
-        <div class="result-container">
+        <section class="summary-grid" aria-label="Health summary">
+            <article class="summary-card featured-summary">
+                <span class="summary-icon">⚖</span>
+                <div>
+                    <span class="summary-label">Body Mass Index</span>
+                    <strong>{{ plan["BMI"] }}</strong>
+                    {% set bmi_category = plan["BMI Category"] %}
+                    <span class="status-badge status-{{ bmi_category|lower }}">{{ bmi_category }}</span>
+                </div>
+            </article>
 
-            <div class="result-heading">
-                <h1>Your Personalized Diet Plan</h1>
-                <p>
-                    Your results are calculated from your body details,
-                    activity level and fitness goal.
-                </p>
+            <article class="summary-card">
+                <span class="summary-icon">🔥</span>
+                <div>
+                    <span class="summary-label">Basal Metabolic Rate</span>
+                    <strong>{{ plan["BMR"] }}</strong>
+                    <small>kcal at rest</small>
+                </div>
+            </article>
+
+            <article class="summary-card">
+                <span class="summary-icon">⚡</span>
+                <div>
+                    <span class="summary-label">Daily Requirement</span>
+                    <strong>{{ plan["Daily Calories"] }}</strong>
+                    <small>kcal per day</small>
+                </div>
+            </article>
+
+            <article class="summary-card target-summary">
+                <span class="summary-icon">◎</span>
+                <div>
+                    <span class="summary-label">Your Target</span>
+                    <strong>{{ plan["Target Calories"] }}</strong>
+                    <small>kcal per day</small>
+                </div>
+            </article>
+        </section>
+
+        <section class="plan-heading">
+            <div>
+                <span class="eyebrow">MEAL RECOMMENDATIONS</span>
+                <h2>Suggested food plan</h2>
             </div>
+            <span class="plan-count">4 meal sections</span>
+        </section>
 
-            <div class="summary-grid">
-
-                <div class="summary-card">
-                    <h3>BMI</h3>
-                    <p>{{ plan["BMI"] }}</p>
-                </div>
-
-                <div class="summary-card">
-                    <h3>BMI Category</h3>
-                    <p>{{ plan["BMI Category"] }}</p>
-                </div>
-
-                <div class="summary-card">
-                    <h3>BMR</h3>
-                    <p>{{ plan["BMR"] }} kcal</p>
-                </div>
-
-                <div class="summary-card">
-                    <h3>Daily Calories</h3>
-                    <p>{{ plan["Daily Calories"] }} kcal</p>
-                </div>
-
-                <div class="summary-card">
-                    <h3>Target Calories</h3>
-                    <p>{{ plan["Target Calories"] }} kcal</p>
-                </div>
-
-            </div>
-
-            <div class="meal-section">
-
-                {% for meal_name, meal in plan["Meal Plan"].items() %}
-
-                    <div class="meal-card">
-
-                        <div class="meal-header">
-                            <h2>{{ meal_name }}</h2>
-
-                            <span>
-                                Target:
-                                {{ meal["Target Calories"] }} kcal
-                            </span>
+        <section class="meal-section">
+            {% for meal_name, meal in plan["Meal Plan"].items() %}
+                <article class="meal-card">
+                    <div class="meal-header">
+                        <div class="meal-title-wrap">
+                            <span class="meal-number">0{{ loop.index }}</span>
+                            <div>
+                                <h3>{{ meal_name }}</h3>
+                                <p>Recommended options for this meal</p>
+                            </div>
                         </div>
-
-                        <div class="table-wrapper">
-
-                            <table>
-
-                                <thead>
-                                    <tr>
-                                        <th>Food</th>
-                                        <th>Category</th>
-                                        <th>Calories</th>
-                                        <th>Protein</th>
-                                        <th>Carbs</th>
-                                        <th>Fat</th>
-                                    </tr>
-                                </thead>
-
-                                <tbody>
-
-                                    {% for food in meal["Recommended Foods"].to_dict("records") %}
-
-                                        <tr>
-                                            <td>{{ food["food_name"] }}</td>
-                                            <td>{{ food["category"] }}</td>
-                                            <td>{{ food["calories"] }}</td>
-                                            <td>{{ food["protein"] }}</td>
-                                            <td>{{ food["carbs"] }}</td>
-                                            <td>{{ food["fat"] }}</td>
-                                        </tr>
-
-                                    {% endfor %}
-
-                                </tbody>
-
-                            </table>
-
-                        </div>
-
+                        <span class="calorie-pill">{{ meal["Target Calories"] }} kcal target</span>
                     </div>
 
-                {% endfor %}
+                    <div class="food-grid">
+                        {% for food in meal["Recommended Foods"].to_dict("records") %}
+                            <div class="food-card">
+                                <div class="food-card-top">
+                                    <span class="food-initial">{{ food["food_name"][0]|upper }}</span>
+                                    <div>
+                                        <h4>{{ food["food_name"] }}</h4>
+                                        <span class="food-category">{{ food["category"] }}</span>
+                                    </div>
+                                </div>
+                                <div class="calorie-value">
+                                    <strong>{{ food["calories"] }}</strong>
+                                    <span>kcal</span>
+                                </div>
+                                <div class="macro-grid">
+                                    <div><span>Protein</span><strong>{{ food["protein"] }}g</strong></div>
+                                    <div><span>Carbs</span><strong>{{ food["carbs"] }}g</strong></div>
+                                    <div><span>Fat</span><strong>{{ food["fat"] }}g</strong></div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
 
-            </div>
-
-            <a href="/" class="back-btn">
-                Generate Another Plan
-            </a>
-
-            <p class="note">
-                These recommendations are generated for educational purposes
-                and are not a replacement for professional medical advice.
-            </p>
-
+        <div class="result-actions">
+            <a href="/" class="secondary-btn">← Change Details</a>
+            <a href="/" class="primary-btn action-btn">Generate Another Plan <span>→</span></a>
         </div>
 
-    </div>
-
+        <p class="medical-note">
+            These recommendations are generated for educational purposes and are not a replacement for professional medical advice.
+        </p>
+    </main>
 </body>
 </html>

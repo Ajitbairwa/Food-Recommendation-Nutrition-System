@@ -3,142 +3,138 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Food Recommendation System</title>
-
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+    <meta name="description" content="Generate a personalized food and nutrition plan based on BMI, activity level and fitness goal.">
+    <title>NutriGuide AI | Food Recommendation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body>
+    <header class="site-header">
+        <a class="brand" href="/" aria-label="NutriGuide AI home">
+            <span class="brand-mark">N</span>
+            <span>NutriGuide <strong>AI</strong></span>
+        </a>
+        <span class="header-badge">Smart Nutrition Planner</span>
+    </header>
 
-    <div class="page-wrapper">
-
-        <div class="form-card">
-
-            <div class="heading-section">
-                <h1>Personalized Food Recommendation System</h1>
-
-                <p>
-                    Enter your details to calculate BMI, daily calorie needs
-                    and generate a personalized food plan.
+    <main class="home-page">
+        <section class="hero-section">
+            <div class="hero-content">
+                <span class="eyebrow">PERSONALIZED NUTRITION</span>
+                <h1>Build a smarter diet plan for your daily goal.</h1>
+                <p class="hero-description">
+                    Enter your body details and activity level. The system calculates
+                    your BMI, calorie needs and recommends a balanced daily meal plan.
                 </p>
-            </div>
 
-            <form action="/generate-plan" method="POST">
-
-                <div class="form-grid">
-
-                    <div class="form-group">
-                        <label for="age">Age</label>
-
-                        <input
-                            type="number"
-                            id="age"
-                            name="age"
-                            min="10"
-                            max="100"
-                            placeholder="Enter your age"
-                            required
-                        >
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div>
+                            <strong>BMI &amp; calorie calculation</strong>
+                            <small>Understand your estimated daily requirement.</small>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="gender">Gender</label>
-
-                        <select id="gender" name="gender" required>
-                            <option value="">Select gender</option>
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                        </select>
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div>
+                            <strong>Goal-based recommendations</strong>
+                            <small>Choose weight loss, maintenance or weight gain.</small>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="height">Height (cm)</label>
-
-                        <input
-                            type="number"
-                            id="height"
-                            name="height"
-                            min="100"
-                            max="250"
-                            step="0.1"
-                            placeholder="Example: 175"
-                            required
-                        >
+                    <div class="feature-item">
+                        <span class="feature-icon">✓</span>
+                        <div>
+                            <strong>Complete meal plan</strong>
+                            <small>Get breakfast, lunch, dinner and snack ideas.</small>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="weight">Weight (kg)</label>
-
-                        <input
-                            type="number"
-                            id="weight"
-                            name="weight"
-                            min="20"
-                            max="300"
-                            step="0.1"
-                            placeholder="Example: 72"
-                            required
-                        >
-                    </div>
-
-                    <div class="form-group">
-                        <label for="activity">Activity Level</label>
-
-                        <select id="activity" name="activity" required>
-                            <option value="">Select activity level</option>
-                            <option value="sedentary">
-                                Sedentary
-                            </option>
-                            <option value="light">
-                                Lightly Active
-                            </option>
-                            <option value="moderate">
-                                Moderately Active
-                            </option>
-                            <option value="active">
-                                Active
-                            </option>
-                            <option value="very active">
-                                Very Active
-                            </option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="goal">Fitness Goal</label>
-
-                        <select id="goal" name="goal" required>
-                            <option value="">Select your goal</option>
-                            <option value="weight loss">
-                                Weight Loss
-                            </option>
-                            <option value="maintain">
-                                Maintain Weight
-                            </option>
-                            <option value="weight gain">
-                                Weight Gain
-                            </option>
-                        </select>
-                    </div>
-
                 </div>
 
-                <button type="submit" class="submit-btn">
-                    Generate Diet Plan
-                </button>
+                <div class="trust-strip">
+                    <div><strong>4</strong><span>Daily meals</span></div>
+                    <div><strong>6</strong><span>Nutrition factors</span></div>
+                    <div><strong>100%</strong><span>Data based</span></div>
+                </div>
+            </div>
 
-            </form>
+            <div class="form-card">
+                <div class="form-heading">
+                    <span class="step-label">STEP 1 OF 1</span>
+                    <h2>Create your plan</h2>
+                    <p>Fill in all fields to generate recommendations.</p>
+                </div>
 
-            <p class="note">
-                This project provides general data-based recommendations and
-                is not a substitute for professional medical advice.
-            </p>
+                <form action="/generate-plan" method="POST">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <div class="input-wrap">
+                                <input type="number" id="age" name="age" min="10" max="100" placeholder="Example: 22" required>
+                                <span class="input-unit">years</span>
+                            </div>
+                        </div>
 
-        </div>
+                        <div class="form-group">
+                            <label for="gender">Gender</label>
+                            <select id="gender" name="gender" required>
+                                <option value="" selected disabled>Select gender</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                            </select>
+                        </div>
 
-    </div>
+                        <div class="form-group">
+                            <label for="height">Height</label>
+                            <div class="input-wrap">
+                                <input type="number" id="height" name="height" min="100" max="250" step="0.1" placeholder="Example: 175" required>
+                                <span class="input-unit">cm</span>
+                            </div>
+                        </div>
 
+                        <div class="form-group">
+                            <label for="weight">Weight</label>
+                            <div class="input-wrap">
+                                <input type="number" id="weight" name="weight" min="20" max="300" step="0.1" placeholder="Example: 72" required>
+                                <span class="input-unit">kg</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="activity">Activity Level</label>
+                            <select id="activity" name="activity" required>
+                                <option value="" selected disabled>Select activity level</option>
+                                <option value="sedentary">Sedentary — little or no exercise</option>
+                                <option value="light">Lightly Active — 1 to 3 days/week</option>
+                                <option value="moderate">Moderately Active — 3 to 5 days/week</option>
+                                <option value="active">Active — 6 to 7 days/week</option>
+                                <option value="very active">Very Active — intense daily activity</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label for="goal">Fitness Goal</label>
+                            <select id="goal" name="goal" required>
+                                <option value="" selected disabled>Select your goal</option>
+                                <option value="weight loss">Weight Loss</option>
+                                <option value="maintain">Maintain Weight</option>
+                                <option value="weight gain">Weight Gain</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="primary-btn">
+                        Generate My Diet Plan
+                        <span aria-hidden="true">→</span>
+                    </button>
+                </form>
+
+                <p class="privacy-note">🔒 Your details are used only to generate this plan.</p>
+            </div>
+        </section>
+
+        <p class="medical-note">
+            This educational project provides general data-based recommendations and is not a substitute for professional medical advice.
+        </p>
+    </main>
 </body>
 </html>
